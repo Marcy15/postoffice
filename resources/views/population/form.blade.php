@@ -3,7 +3,7 @@
     <select id="city" name="city" required>
         <option value="">Válassz várost</option>
         @foreach ($cities as $city)
-            <option value="{{ $city->id }}" @selected(old('city', $population->city ?? '') == $city->id)>{{ $city->name }} ({{ $city->zip_code }}) — {{ $city->country?->name }}</option>
+            <option value="{{ $city->id }}" @selected(old('city', $population->city ?? '') == $city->id)>{{ $city->name }} ({{ $city->zip_code }}) — {{ $city->county?->name }}</option>
         @endforeach
     </select>
 </div>

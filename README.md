@@ -1,6 +1,6 @@
 # Postoffice
 
-Egyszerű Laravel 11 MVC CRUD alkalmazás a `countries`, `cities` és `population` táblák kezelésére.
+Egyszerű Laravel 11 MVC CRUD alkalmazás a `counties`, `cities` és `population` táblák kezelésére.
 
 ## Funkciók
 
@@ -13,13 +13,9 @@ Egyszerű Laravel 11 MVC CRUD alkalmazás a `countries`, `cities` és `populatio
 
 ## Adatbázis
 
-A mellékelt `postoffice.sql` adatbázisból az eredeti `cities` és `countries` táblák adatait importáld a MySQL/MariaDB szerverre. Az alkalmazás a `countries` elnevezést használja a meglévő dump `counties` táblája helyett, ezért az import után nevezd át:
+A projekt közvetlenül a meglévő `counties`, `cities` és `population` táblaneveket használja. A csatolt `postoffice.sql` dumpban a `cities` tábla `id`, `zip_code`, `name` és `id_county` oszlopokkal, a `counties` tábla `id` és `name` oszlopokkal szerepel.
 
-```sql
-RENAME TABLE counties TO countries;
-```
-
-A `population` tábla migrációból készül el. Egy városhoz legfeljebb egy lakossági rekord tartozhat.
+A `population` táblát a projekt migrációja hozza létre. Egy városhoz legfeljebb egy lakossági rekord tartozhat.
 
 ## Telepítés
 
@@ -28,8 +24,8 @@ A `population` tábla migrációból készül el. Egy városhoz legfeljebb egy l
 3. Másold a környezeti mintát: `copy .env.example .env`
 4. Állítsd be a `.env` fájlban a MySQL/MariaDB adatbázis-kapcsolatot.
 5. Futtasd: `php artisan key:generate`
-6. Importáld a meglévő város- és megyeadatokat a `postoffice` adatbázisba.
-7. Futtasd csak a population migrációt: `php artisan migrate --path=database/migrations/2026_09_07_000003_create_population_table.php`
+6. Importáld a `postoffice.sql` dumpot a `postoffice` adatbázisba.
+7. Ha a dumpban még nem létezik, hozd létre a population táblát: `php artisan migrate --path=database/migrations/2026_09_07_000003_create_population_table.php`
 8. Indítsd el: `php artisan serve`
 9. Nyisd meg: `http://127.0.0.1:8000`
 

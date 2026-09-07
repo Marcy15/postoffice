@@ -10,8 +10,8 @@
     <label for="id_county">Megye</label>
     <select id="id_county" name="id_county" required>
         <option value="">Válassz megyét</option>
-        @foreach ($countries as $country)
-            <option value="{{ $country->id }}" @selected(old('id_county', $city->id_county ?? '') == $country->id)>{{ $country->name }}</option>
+        @foreach ($counties as $county)
+            <option value="{{ $county->id }}" @selected(old('id_county', $city->id_county ?? '') == $county->id)>{{ $county->name }}</option>
         @endforeach
     </select>
 </div>

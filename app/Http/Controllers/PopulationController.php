@@ -13,14 +13,14 @@ class PopulationController extends Controller
 {
     public function index(): View
     {
-        $populations = Population::with('cityRecord.country')->orderByDesc('population')->paginate(25);
+        $populations = Population::with('cityRecord.county')->orderByDesc('population')->paginate(25);
 
         return view('population.index', compact('populations'));
     }
 
     public function create(): View
     {
-        $cities = City::with('country')->orderBy('name')->orderBy('zip_code')->get();
+        $cities = City::with('county')->orderBy('name')->orderBy('zip_code')->get();
 
         return view('population.create', compact('cities'));
     }
@@ -34,7 +34,7 @@ class PopulationController extends Controller
 
     public function edit(Population $population): View
     {
-        $cities = City::with('country')->orderBy('name')->orderBy('zip_code')->get();
+        $cities = City::with('county')->orderBy('name')->orderBy('zip_code')->get();
 
         return view('population.edit', compact('population', 'cities'));
     }

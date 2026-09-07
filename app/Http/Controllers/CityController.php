@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\City;
-use App\Models\Country;
+use App\Models\County;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -12,16 +12,16 @@ class CityController extends Controller
 {
     public function index(): View
     {
-        $cities = City::with(['country', 'population'])->orderBy('name')->orderBy('zip_code')->paginate(25);
+        $cities = City::with(['county', 'population'])->orderBy('name')->orderBy('zip_code')->paginate(25);
 
         return view('cities.index', compact('cities'));
     }
 
     public function create(): View
     {
-        $countries = Country::orderBy('name')->get();
+        $counties = County::orderBy('name')->get();
 
-        return view('cities.create', compact('countries'));
+        return view('cities.create', compact('counties'));
     }
 
     public function store(Request $request): RedirectResponse
@@ -33,9 +33,9 @@ class CityController extends Controller
 
     public function edit(City $city): View
     {
-        $countries = Country::orderBy('name')->get();
+        $counties = County::orderBy('name')->get();
 
-        return view('cities.edit', compact('city', 'countries'));
+        return view('cities.edit', compact('city', 'counties'));
     }
 
     public function update(Request $request, City $city): RedirectResponse
@@ -58,7 +58,7 @@ class CityController extends Controller
         return $request->validate([
             'zip_code' => ['required', 'integer', 'between:1000,9999'],
             'name' => ['required', 'string', 'max:50'],
-            'id_county' => ['required', 'exists:countries,id'],
+            'id_county' => ['required', 'exists:counties,id'],
         ]);
     }
 }

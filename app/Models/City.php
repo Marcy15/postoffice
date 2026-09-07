@@ -19,9 +19,9 @@ class City extends Model
         'id_county',
     ];
 
-    public function country(): BelongsTo
+    public function county(): BelongsTo
     {
-        return $this->belongsTo(Country::class, 'id_county');
+        return $this->belongsTo(County::class, 'id_county');
     }
 
     public function population(): HasOne

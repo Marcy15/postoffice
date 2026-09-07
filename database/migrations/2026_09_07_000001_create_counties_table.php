@@ -8,16 +8,14 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('cities', function (Blueprint $table) {
+        Schema::create('counties', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('zip_code')->index();
-            $table->string('name', 50)->index();
-            $table->foreignId('id_county')->constrained('counties')->restrictOnDelete();
+            $table->string('name', 50)->unique();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('cities');
+        Schema::dropIfExists('counties');
     }
 };

@@ -46,9 +46,9 @@
 <body>
     <header>
         <div class="header-content">
-            <a class="brand" href="{{ route('countries.index') }}">Postoffice</a>
+            <a class="brand" href="{{ route('counties.index') }}">Postoffice</a>
             <nav>
-                <a href="{{ route('countries.index') }}" class="{{ request()->routeIs('countries.*') ? 'active' : '' }}">Megyék</a>
+                <a href="{{ route('counties.index') }}" class="{{ request()->routeIs('counties.*') ? 'active' : '' }}">Megyék</a>
                 <a href="{{ route('cities.index') }}" class="{{ request()->routeIs('cities.*') ? 'active' : '' }}">Városok</a>
                 <a href="{{ route('population.index') }}" class="{{ request()->routeIs('population.*') ? 'active' : '' }}">Lakosság</a>
             </nav>

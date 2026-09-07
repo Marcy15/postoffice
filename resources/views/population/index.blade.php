@@ -33,7 +33,7 @@
                         <td>{{ $population->id }}</td>
                         <td>{{ $population->cityRecord?->name ?? '-' }}</td>
                         <td>{{ $population->cityRecord?->zip_code ?? '-' }}</td>
-                        <td>{{ $population->cityRecord?->country?->name ?? '-' }}</td>
+                        <td>{{ $population->cityRecord?->county?->name ?? '-' }}</td>
                         <td>{{ number_format($population->population, 0, ',', ' ') }}</td>
                         <td>
                             <div class="actions">
