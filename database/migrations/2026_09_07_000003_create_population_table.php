@@ -9,9 +9,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('population', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('city')->unique()->constrained('cities')->cascadeOnDelete();
-            $table->unsignedInteger('population');
+            $table->increments('id');
+            $table->bigInteger('city')->unique();
+            $table->integer('population');
         });
     }
 

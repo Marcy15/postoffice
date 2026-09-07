@@ -20,7 +20,6 @@ class CountyCrestSeeder extends Seeder
             'Hajdú-Bihar' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Coa_Hungary_County_Hajd%C3%BA-Bihar.svg/120px-Coa_Hungary_County_Hajd%C3%BA-Bihar.svg.png',
             'Heves' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Coa_Hungary_County_Heves.svg/120px-Coa_Hungary_County_Heves.svg.png',
             'Jász-Nagykun-Szolnok' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Coa_Hungary_County_J%C3%A1sz-Nagykun-Szolnok.svg/120px-Coa_Hungary_County_J%C3%A1sz-Nagykun-Szolnok.svg.png',
-            'Komárom-Esztergom' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Coa_Hungary_County_Kom%C3%A1rom-Esztergom.svg/120px-Coa_Hungary_County_Kom%C3%A1rom-Esztergom.svg.png',
             'Nógrád' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Coa_Hungary_County_N%C3%B3gr%C3%A1d.svg/120px-Coa_Hungary_County_N%C3%B3gr%C3%A1d.svg.png',
             'Pest' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Coa_Hungary_County_Pest.svg/120px-Coa_Hungary_County_Pest.svg.png',
             'Somogy' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Coa_Hungary_County_Somogy.svg/120px-Coa_Hungary_County_Somogy.svg.png',

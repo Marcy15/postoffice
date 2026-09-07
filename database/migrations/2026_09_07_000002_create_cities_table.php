@@ -9,10 +9,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('cities', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedInteger('zip_code')->index();
+            $table->bigIncrements('id');
+            $table->integer('zip_code')->index();
             $table->string('name', 50)->index();
-            $table->foreignId('id_county')->constrained('counties')->restrictOnDelete();
+            $table->integer('id_county')->index();
         });
     }
 

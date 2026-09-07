@@ -42,7 +42,7 @@ class CountyController extends Controller
 
     public function update(Request $request, County $county): RedirectResponse
     {
-        $county->update($this->validatedData($request, $county));
+        $county->update($this->validatedData($request));
 
         return redirect()->route('counties.index')->with('success', 'A megye sikeresen módosítva lett.');
     }
@@ -58,16 +58,10 @@ class CountyController extends Controller
         return redirect()->route('counties.index')->with('success', 'A megye sikeresen törölve lett.');
     }
 
-    private function validatedData(Request $request, ?County $county = null): array
+    private function validatedData(Request $request): array
     {
-        $nameRule = 'unique:counties,name';
-
-        if ($county !== null) {
-            $nameRule .= ',' . $county->id;
-        }
-
         return $request->validate([
-            'name' => ['required', 'string', 'max:50', $nameRule],
+            'name' => ['required', 'string', 'max:50'],
             'crest_url' => ['nullable', 'url', 'max:2048'],
         ]);
     }
