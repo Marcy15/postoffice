@@ -10,16 +10,29 @@ use Illuminate\View\View;
 
 class CityController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $cities = City::with(['county', 'population'])->orderBy('name')->orderBy('zip_code')->paginate(25);
+        $search = trim((string) $request->query('search'));
 
-        return view('cities.index', compact('cities'));
+        $cities = City::query()
+            ->with(['county', 'population'])
+            ->when($search !== '', function ($query) use ($search) {
+                $query->where(function ($query) use ($search) {
+                    $query->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('zip_code', 'like', '%' . $search . '%')
+                        ->orWhereHas('county', fn ($countyQuery) => $countyQuery->where('name', 'like', '%' . $search . '%'));
+                });
+            })
+            ->orderBy('id')
+            ->paginate(25)
+            ->withQueryString();
+
+        return view('cities.index', compact('cities', 'search'));
     }
 
     public function create(): View
     {
-        $counties = County::orderBy('name')->get();
+        $counties = County::orderBy('id')->get();
 
         return view('cities.create', compact('counties'));
     }
@@ -33,7 +46,7 @@ class CityController extends Controller
 
     public function edit(City $city): View
     {
-        $counties = County::orderBy('name')->get();
+        $counties = County::orderBy('id')->get();
 
         return view('cities.edit', compact('city', 'counties'));
     }

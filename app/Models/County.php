@@ -14,6 +14,7 @@ class County extends Model
 
     protected $fillable = [
         'name',
+        'crest_url',
     ];
 
     public function cities(): HasMany

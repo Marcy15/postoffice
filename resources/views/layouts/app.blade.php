@@ -22,7 +22,7 @@
         th, td { padding: 11px 10px; border-bottom: 1px solid #e5e7eb; text-align: left; vertical-align: middle; }
         th { background: #f9fafb; font-size: 14px; }
         tr:last-child td { border-bottom: 0; }
-        .actions { display: flex; gap: 8px; align-items: center; }
+        .actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
         .button { display: inline-block; border: 1px solid #374151; background: #374151; color: white; padding: 8px 12px; text-decoration: none; font-size: 14px; cursor: pointer; }
         .button:hover { background: #111827; }
         .button.secondary { background: white; color: #374151; }
@@ -32,6 +32,10 @@
         .field { margin-bottom: 16px; }
         label { display: block; margin-bottom: 6px; font-weight: 700; }
         input, select { width: 100%; border: 1px solid #9ca3af; padding: 9px; font: inherit; }
+        .search-form { display: flex; gap: 8px; align-items: center; margin-bottom: 18px; }
+        .search-form input { max-width: 440px; }
+        .crest { display: block; width: 42px; height: 52px; object-fit: contain; }
+        .crest.preview { width: 84px; height: 104px; }
         .error-list, .alert { padding: 12px; margin-bottom: 18px; }
         .error-list, .alert.error { border: 1px solid #ef4444; background: #fef2f2; color: #991b1b; }
         .alert.success { border: 1px solid #22c55e; background: #f0fdf4; color: #166534; }
@@ -40,7 +44,7 @@
         .pagination { margin-top: 18px; }
         .pagination nav { display: block; }
         .pagination svg { width: 16px; height: 16px; }
-        @media (max-width: 700px) { .header-content, .page-header { align-items: flex-start; flex-direction: column; } .card { overflow-x: auto; } }
+        @media (max-width: 700px) { .header-content, .page-header, .search-form { align-items: flex-start; flex-direction: column; } .card { overflow-x: auto; } .search-form input { max-width: none; } }
     </style>
 </head>
 <body>

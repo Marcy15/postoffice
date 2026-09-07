@@ -10,10 +10,19 @@
     </div>
 
     <div class="card">
+        <form class="search-form" method="GET" action="{{ route('counties.index') }}">
+            <input name="search" type="search" value="{{ $search }}" placeholder="Keresés megye neve alapján">
+            <button class="button" type="submit">Keresés</button>
+            @if ($search !== '')
+                <a class="button secondary" href="{{ route('counties.index') }}">Szűrés törlése</a>
+            @endif
+        </form>
+
         <table>
             <thead>
                 <tr>
                     <th>ID</th>
+                    <th>Címer</th>
                     <th>Név</th>
                     <th>Városok száma</th>
                     <th>Műveletek</th>
@@ -23,6 +32,15 @@
                 @forelse ($counties as $county)
                     <tr>
                         <td>{{ $county->id }}</td>
+                        <td>
+                            @if ($county->crest_url)
+                                <a href="{{ $county->crest_url }}" target="_blank" rel="noopener noreferrer">
+                                    <img class="crest" src="{{ $county->crest_url }}" alt="{{ $county->name }} címere">
+                                </a>
+                            @else
+                                -
+                            @endif
+                        </td>
                         <td>{{ $county->name }}</td>
                         <td>{{ $county->cities_count }}</td>
                         <td>
@@ -38,7 +56,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td class="empty" colspan="4">Nincs megjeleníthető megye.</td>
+                        <td class="empty" colspan="5">Nincs megjeleníthető megye.</td>
                     </tr>
                 @endforelse
             </tbody>

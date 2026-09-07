@@ -11,16 +11,32 @@ use Illuminate\View\View;
 
 class PopulationController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $populations = Population::with('cityRecord.county')->orderByDesc('population')->paginate(25);
+        $search = trim((string) $request->query('search'));
 
-        return view('population.index', compact('populations'));
+        $populations = Population::query()
+            ->with('cityRecord.county')
+            ->when($search !== '', function ($query) use ($search) {
+                $query->where(function ($query) use ($search) {
+                    $query->where('population', 'like', '%' . $search . '%')
+                        ->orWhereHas('cityRecord', function ($cityQuery) use ($search) {
+                            $cityQuery->where('name', 'like', '%' . $search . '%')
+                                ->orWhere('zip_code', 'like', '%' . $search . '%')
+                                ->orWhereHas('county', fn ($countyQuery) => $countyQuery->where('name', 'like', '%' . $search . '%'));
+                        });
+                });
+            })
+            ->orderBy('id')
+            ->paginate(25)
+            ->withQueryString();
+
+        return view('population.index', compact('populations', 'search'));
     }
 
     public function create(): View
     {
-        $cities = City::with('county')->orderBy('name')->orderBy('zip_code')->get();
+        $cities = City::with('county')->orderBy('id')->get();
 
         return view('population.create', compact('cities'));
     }
@@ -34,7 +50,7 @@ class PopulationController extends Controller
 
     public function edit(Population $population): View
     {
-        $cities = City::with('county')->orderBy('name')->orderBy('zip_code')->get();
+        $cities = City::with('county')->orderBy('id')->get();
 
         return view('population.edit', compact('population', 'cities'));
     }
@@ -57,6 +73,7 @@ class PopulationController extends Controller
     {
         $rows = City::query()
             ->select('id')
+            ->orderBy('id')
             ->get()
             ->map(fn (City $city) => [
                 'city' => $city->id,

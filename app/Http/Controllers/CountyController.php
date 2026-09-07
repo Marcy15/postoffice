@@ -9,11 +9,18 @@ use Illuminate\View\View;
 
 class CountyController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $counties = County::withCount('cities')->orderBy('name')->paginate(20);
+        $search = trim((string) $request->query('search'));
 
-        return view('counties.index', compact('counties'));
+        $counties = County::query()
+            ->withCount('cities')
+            ->when($search !== '', fn ($query) => $query->where('name', 'like', '%' . $search . '%'))
+            ->orderBy('id')
+            ->paginate(20)
+            ->withQueryString();
+
+        return view('counties.index', compact('counties', 'search'));
     }
 
     public function create(): View
@@ -23,9 +30,7 @@ class CountyController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        County::create($request->validate([
-            'name' => ['required', 'string', 'max:50', 'unique:counties,name'],
-        ]));
+        County::create($this->validatedData($request));
 
         return redirect()->route('counties.index')->with('success', 'A megye sikeresen létrejött.');
     }
@@ -37,9 +42,7 @@ class CountyController extends Controller
 
     public function update(Request $request, County $county): RedirectResponse
     {
-        $county->update($request->validate([
-            'name' => ['required', 'string', 'max:50', 'unique:counties,name,' . $county->id],
-        ]));
+        $county->update($this->validatedData($request, $county));
 
         return redirect()->route('counties.index')->with('success', 'A megye sikeresen módosítva lett.');
     }
@@ -53,5 +56,19 @@ class CountyController extends Controller
         $county->delete();
 
         return redirect()->route('counties.index')->with('success', 'A megye sikeresen törölve lett.');
+    }
+
+    private function validatedData(Request $request, ?County $county = null): array
+    {
+        $nameRule = 'unique:counties,name';
+
+        if ($county !== null) {
+            $nameRule .= ',' . $county->id;
+        }
+
+        return $request->validate([
+            'name' => ['required', 'string', 'max:50', $nameRule],
+            'crest_url' => ['nullable', 'url', 'max:2048'],
+        ]);
     }
 }

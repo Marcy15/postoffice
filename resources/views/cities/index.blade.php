@@ -10,6 +10,14 @@
     </div>
 
     <div class="card">
+        <form class="search-form" method="GET" action="{{ route('cities.index') }}">
+            <input name="search" type="search" value="{{ $search }}" placeholder="Város, irányítószám vagy megye keresése">
+            <button class="button" type="submit">Keresés</button>
+            @if ($search !== '')
+                <a class="button secondary" href="{{ route('cities.index') }}">Szűrés törlése</a>
+            @endif
+        </form>
+
         <table>
             <thead>
                 <tr>

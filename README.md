@@ -1,38 +1,48 @@
 # Postoffice
 
-Egyszerű Laravel 11 MVC CRUD alkalmazás a `counties`, `cities` és `population` táblák kezelésére.
+Egyszerű Laravel MVC CRUD alkalmazás a `counties`, `cities` és `population` táblák kezelésére.
 
 ## Funkciók
 
-- Megyék: lista, létrehozás, szerkesztés és törlés
-- Városok: lista, létrehozás, szerkesztés és törlés
-- Lakossági adatok: lista, létrehozás, szerkesztés és törlés
-- Véletlen lakossági adatok generálása minden városból egy gombbal
-- Egyszerű, reszponzív Blade felület
-- Nincsenek forráskódbeli megjegyzések
-
-## Adatbázis
-
-A projekt közvetlenül a meglévő `counties`, `cities` és `population` táblaneveket használja. A csatolt `postoffice.sql` dumpban a `cities` tábla `id`, `zip_code`, `name` és `id_county` oszlopokkal, a `counties` tábla `id` és `name` oszlopokkal szerepel.
-
-A `population` táblát a projekt migrációja hozza létre. Egy városhoz legfeljebb egy lakossági rekord tartozhat.
+- Megyék, városok és lakossági adatok: lista, létrehozás, szerkesztés és törlés
+- Minden lista ID szerint növekvő sorrendben jelenik meg
+- Keresés mindhárom listában
+- Megyei címer oszlop közvetlen Wikimedia Commons kép-linkekkel
+- Lakossági adatok véletlen generálása minden városhoz
+- A `counties` és `cities` táblák adatainak seederes feltöltése
 
 ## Telepítés
 
-1. Klónozd a repositoryt, majd lépj be a könyvtárba.
-2. Futtasd: `composer install`
-3. Másold a környezeti mintát: `copy .env.example .env`
-4. Állítsd be a `.env` fájlban a MySQL/MariaDB adatbázis-kapcsolatot.
-5. Futtasd: `php artisan key:generate`
-6. Importáld a `postoffice.sql` dumpot a `postoffice` adatbázisba.
-7. Ha a dumpban még nem létezik, hozd létre a population táblát: `php artisan migrate --path=database/migrations/2026_09_07_000003_create_population_table.php`
-8. Indítsd el: `php artisan serve`
-9. Nyisd meg: `http://127.0.0.1:8000`
+1. Hozz létre egy tiszta Laravel projektet: `composer create-project laravel/laravel postoffice`
+2. Másold bele ebből a repositoryból az `app`, `routes`, `resources` és `database` könyvtárakat.
+3. Másold a `.env.example` fájlt `.env` néven.
+4. A `.env` fájlban állítsd be a MySQL kapcsolatot, és használd ezeket a helyi beállításokat:
 
-Ha teljesen üres adatbázissal indulsz, minden migrációt futtathatsz a `php artisan migrate` paranccsal, majd a felületen kézzel vehetsz fel megyéket és városokat.
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=postoffice
+DB_USERNAME=root
+DB_PASSWORD=
+SESSION_DRIVER=file
+CACHE_STORE=file
+QUEUE_CONNECTION=sync
+```
+
+5. Futtasd: `php artisan key:generate`
+6. Futtasd: `php artisan migrate`
+7. Másold a saját `postoffice.sql` dumpodat ide: `database/seeders/data/postoffice.sql`
+8. Futtasd: `php artisan db:seed`
+9. Indítsd el: `php artisan serve`
+
+## Megjegyzés az adatokhoz
+
+A `CitiesAndCountiesSeeder` a `database/seeders/data/postoffice.sql` fájlból csak a `counties` és `cities` táblák `INSERT` utasításait tölti be. A seeder előtt a `counties` és `cities` táblákat kiüríti, ezért futtatása csak akkor ajánlott, ha ezeket az adatokat újra akarod tölteni.
+
+A `CountyCrestSeeder` a meglévő megye-nevekhez hozzáadja a `crest_url` értékeket. A címerképek a Wikimedia Commons közvetlen kép URL-jei.
 
 ## Használat
 
-- A Megyék és Városok menüpontokban megtalálható az összes CRUD művelet.
 - A Lakosság oldalon a `Véletlen feltöltés városokból` gomb törli a korábbi lakossági sorokat, majd minden `cities` rekordhoz 100 és 200 000 közötti véletlen lakosságot készít.
 - A város törlése a hozzá tartozó lakossági rekordot is törli.
